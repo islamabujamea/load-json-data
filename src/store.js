@@ -4,7 +4,7 @@ const initailState={
 }
 const rootReducer=(state=initailState,action)=>{
     switch(action.type){
-        case 'ADD_DATA':
+        case 'GET_PRODUCTS':
             return{
                 ...state,
                 data: action.payload

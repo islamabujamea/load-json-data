@@ -1,8 +1,8 @@
 import exportedData from "./productData.json";
 
-export const ADD_DATA = "ADD_DATA";
+export const GET_PRODUCTS = "GET_PRODUCTS";
 export const addData = {
-      type: ADD_DATA,
+      type: GET_PRODUCTS,
       payload: exportedData.data
 };
 export default addData;
