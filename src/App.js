@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import { addData } from './action';
+import React, { Component, } from 'react';
+import { connect, useDispatch } from 'react-redux'
+import { addData, } from './action';
 import './App.css';
 import {
   BrowserRouter as Router,
@@ -84,82 +84,96 @@ function EditProduct() {
   const options = ['$1-10', '$11-20', '$21-49'];
   const options2 = ['$50-100', '$100-199', '$200+'];
 
+  const dispatch = useDispatch();
 
-
+  const handleSubmit = event => {
+    event.preventDefault();
+    dispatch({ type: 'UPDATE_PRODUCT', id: value })
+  }
   return (
-    <form
-      //onSubmit={handleSubmit}
-    >
-
-      <h1>Edit {productInfo.product_name} Product</h1>
-
-      <label>
-        Name:
+    <div className="wrapper">
+      <form onSubmit={handleSubmit} >
+        <h1>Edit {productInfo.product_name} Product</h1>
+        <fieldset>
+          <label>
+            Name:
         <input
-          name="name"
-          type="text"
-          value={name}
-          onChange={e => setName(e.target.value)}
-          required />
-      </label>
-
-      <label>
-        Weight:
+              name="name"
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              required />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            Weight:
         <input
-          name="weight"
-          type="text"
-          value={weight}
-          onChange={e => setWeight(e.target.value)}
-          required />
-      </label>
-
-      <label>
-        Availability:
+              name="weight"
+              type="text"
+              value={weight}
+              onChange={e => setWeight(e.target.value)}
+              required />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            Availability:
         <input
-          name="availability"
-          type="number"
-          value={availability}
-          onChange={e => setAvailability(e.target.value)}
-        />
-      </label>
-
-      <label>
-        Url:
+              name="availability"
+              type="number"
+              value={availability}
+              onChange={e => setAvailability(e.target.value)}
+            />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            Url:
         <input
-          name="url"
-          type="text"
-          value={url}
-          onChange={e => setUrl(e.target.value)}
-          required />
-      </label>
-
-      <div onChange={e => setTier(e.target.value)}>
-        <input type="radio" value="budget" name="tier" checked={tier === 'budget' ? true : false} /> Budget
+              name="url"
+              type="text"
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              required />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label> Price Tier:
+          <div onChange={e => setTier(e.target.value)}>
+              <input type="radio" value="budget" name="tier" checked={tier === 'budget' ? true : false} /> Budget
         <input type="radio" value="premium" name="tier" checked={tier === 'premium' ? true : false} /> Premium
       </div>
-
-      <Dropdown
-        options={tier === 'budget' ? options : options2}
-        onChange={e =>
-          setRange(e.value)
-        }
-        value={range}
-        placeholder="Select Product Range" />;
-
-      <label>
-        <input
-          name="isEditable"
-          type="checkbox"
-          value={isEditable}
-          defaultChecked={isEditable}
-          onChange={() => setIsEditable(!isEditable)}
-          required />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label> Price Range
+          Availability:
+            <Dropdown
+              options={tier === 'budget' ? options : options2}
+              onChange={e =>
+                setRange(e.value)
+              }
+              value={range}
+              placeholder="Select Price Range" />
+          </label>
+        </fieldset>
+        <fieldset>
+          <label>
+            <input
+              name="isEditable"
+              type="checkbox"
+              value={isEditable}
+              defaultChecked={isEditable}
+              onChange={() => setIsEditable(!isEditable)}
+              required />
         I IsEditable
       </label>
-
-      <button>Submit</button>
-    </form>
-  );
+        </fieldset>
+        <button>Submit</button>
+      </form>
+    </div>
+  )
 }
 
 
@@ -167,7 +181,7 @@ function EditProduct() {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addData: () => dispatch(addData)
+    addData: () => dispatch(addData),
   }
 }
 

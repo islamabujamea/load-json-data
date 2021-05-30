@@ -1,14 +1,24 @@
-import { createStore} from 'redux';
-const initailState={
-    data:[],
+import { createStore } from 'redux';
+const initailState = {
+    data: [],
 }
-const rootReducer=(state=initailState,action)=>{
-    switch(action.type){
+const rootReducer = (state = initailState, action) => {
+    switch (action.type) {
         case 'GET_PRODUCTS':
-            return{
+            return {
                 ...state,
                 data: action.payload
             }
+        case 'UPDATE_PRODUCT':
+            console.log("reducer update", state);
+            // const newsletterID = action.payload;
+            // var newsletterToEdit = {};
+            // state.newsletters.map(newsletter => {
+            //     if(newsletter._id == newsletterID) {
+            //         newsletterToEdit = newsletter;
+            //     }
+            // })
+            break;
         default:
             return state;
     }

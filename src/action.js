@@ -1,8 +1,16 @@
 import exportedData from "./productData.json";
 
 export const GET_PRODUCTS = "GET_PRODUCTS";
+export const UPDATE_PRODUCT = "UPDATE_PRODUCT";
+
 export const addData = {
       type: GET_PRODUCTS,
       payload: exportedData.data
 };
-export default addData;
+
+export const editData = (id,products) => {
+      return {
+          type: UPDATE_PRODUCT,
+          id,
+      };
+  }
