@@ -1,4 +1,5 @@
 import { createStore } from 'redux';
+
 const initailState = {
     data: [],
 }
@@ -10,7 +11,7 @@ const rootReducer = (state = initailState, action) => {
                 data: action.payload
             }
         case 'UPDATE_PRODUCT':
-            console.log("reducer update", state);
+            console.log("reducer update",action);
             // const newsletterID = action.payload;
             // var newsletterToEdit = {};
             // state.newsletters.map(newsletter => {
