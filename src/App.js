@@ -14,6 +14,7 @@ import 'react-dropdown/style.css';
 
 var products = addData.payload;
 
+console.log(products)
 class App extends Component {
   render() {
     return <Router>
@@ -88,7 +89,19 @@ function EditProduct() {
 
   const handleSubmit = event => {
     event.preventDefault();
-    dispatch({ type: 'UPDATE_PRODUCT', id: value })
+    dispatch({
+      type: 'UPDATE_PRODUCT', id: value, newState: {
+        availability: availability,
+        isEditable: isEditable,
+        price_range: range,
+        price_tier: tier,
+        product_name: name,
+        unit_cost: productInfo.unit_cost,
+        url: url,
+        weight: weight,
+        _id: value
+      }
+    })
   }
   return (
     <div className="wrapper">

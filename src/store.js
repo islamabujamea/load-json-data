@@ -12,13 +12,13 @@ const rootReducer = (state = initailState, action) => {
             }
         case 'UPDATE_PRODUCT':
             console.log("reducer update",action);
-            // const newsletterID = action.payload;
-            // var newsletterToEdit = {};
-            // state.newsletters.map(newsletter => {
-            //     if(newsletter._id == newsletterID) {
-            //         newsletterToEdit = newsletter;
-            //     }
-            // })
+            const productId = action.id;
+            var newState = action.newState;
+            state.data.map(val => {
+                if(val._id === productId) {
+                    val = newState;
+                }
+            })
             break;
         default:
             return state;
