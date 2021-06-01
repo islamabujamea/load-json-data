@@ -1,5 +1,5 @@
-import React, { Component, } from 'react';
-import { connect, useDispatch } from 'react-redux'
+import React, { Component, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import { addData, } from './action';
 import './App.css';
 import {
@@ -11,11 +11,12 @@ import {
 } from "react-router-dom";
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import exportedData from "./productData.json";
 
 var products = addData.payload;
 
 console.log(products)
-class App extends Component {
+export default class App extends Component {
   render() {
     return <Router>
       <div>
@@ -36,10 +37,18 @@ class App extends Component {
 
 
 function DisplayProducts() {
+  const dispatch = useDispatch();
+
+  const { data } = useSelector(s => s);
+
+  useEffect(() => {
+    dispatch(addData(exportedData))
+  }, [])
   return (
     <div className="App">
+
       <div className="table table-striped">
-        {products.length > 0 && <table>
+        {data.length > 0 && <table>
           <thead>
             <tr>
               <th>Name</th>
@@ -49,7 +58,7 @@ function DisplayProducts() {
             </tr>
           </thead>
           <tbody>
-            {products.map((val, index) => {
+            {data.map((val, index) => {
               return (
                 <tr key={index}>
                   <td>{val.product_name}</td>
@@ -73,40 +82,38 @@ function DisplayProducts() {
 
 function EditProduct() {
   var { value } = useParams();
-  var productInfo = products.find((item) => item._id === Number(value));
+  const dispatch = useDispatch();
+  const { selectedProduct: productInfo = {} } = useSelector(s => s);
 
-  const [name, setName] = React.useState(productInfo.product_name);
-  const [weight, setWeight] = React.useState(productInfo.weight);
-  const [availability, setAvailability] = React.useState(productInfo.availability);
-  const [url, setUrl] = React.useState(productInfo.url);
-  const [tier, setTier] = React.useState(productInfo.price_tier);
-  const [range, setRange] = React.useState(productInfo.price_range);
-  const [isEditable, setIsEditable] = React.useState(productInfo.isEditable);
+  console.log('productInfo is', productInfo);
+
+  useEffect(() => {
+    console.log("id", value)
+    dispatch({ type: 'UPDATE_SELECTED_PROD', payload: value })
+  }, [value])
+
+
+  const [name, setName] = React.useState(productInfo?.product_name);
+  const [weight, setWeight] = React.useState(productInfo?.weight);
+  const [availability, setAvailability] = React.useState(productInfo?.availability);
+  const [url, setUrl] = React.useState(productInfo?.url);
+  const [tier, setTier] = React.useState(productInfo?.price_tier);
+  const [range, setRange] = React.useState(productInfo?.price_range);
+  const [isEditable, setIsEditable] = React.useState(productInfo?.isEditable);
   const options = ['$1-10', '$11-20', '$21-49'];
   const options2 = ['$50-100', '$100-199', '$200+'];
 
-  const dispatch = useDispatch();
 
   const handleSubmit = event => {
     event.preventDefault();
     dispatch({
-      type: 'UPDATE_PRODUCT', id: value, newState: {
-        availability: availability,
-        isEditable: isEditable,
-        price_range: range,
-        price_tier: tier,
-        product_name: name,
-        unit_cost: productInfo.unit_cost,
-        url: url,
-        weight: weight,
-        _id: value
-      }
+      type: 'UPDATE_PRODUCT', payload: { id: productInfo?._id, name: name }
     })
   }
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit} >
-        <h1>Edit {productInfo.product_name} Product</h1>
+        <h1>Edit {productInfo?.product_name} Product</h1>
         <fieldset>
           <label>
             Name:
@@ -188,16 +195,5 @@ function EditProduct() {
     </div>
   )
 }
-
-
-
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addData: () => dispatch(addData),
-  }
-}
-
-export default connect(mapDispatchToProps)(App);
 
 
