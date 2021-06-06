@@ -13,9 +13,6 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import exportedData from "./productData.json";
 
-var products = addData.payload;
-
-console.log(products)
 export default class App extends Component {
   render() {
     return <Router>
@@ -44,6 +41,7 @@ function DisplayProducts() {
   useEffect(() => {
     dispatch(addData(exportedData))
   }, [])
+
   return (
     <div className="App">
 
@@ -88,7 +86,6 @@ function EditProduct() {
   console.log('productInfo is', productInfo);
 
   useEffect(() => {
-    console.log("id", value)
     dispatch({ type: 'UPDATE_SELECTED_PROD', payload: value })
   }, [value])
 
@@ -110,6 +107,8 @@ function EditProduct() {
       type: 'UPDATE_PRODUCT', payload: { id: productInfo?._id, name: name }
     })
   }
+
+
   return (
     <div className="wrapper">
       <form onSubmit={handleSubmit} >
@@ -120,7 +119,7 @@ function EditProduct() {
         <input
               name="name"
               type="text"
-              value={name}
+              value={name !== undefined ? name : productInfo?.product_name}
               onChange={e => setName(e.target.value)}
               required />
           </label>
@@ -131,7 +130,7 @@ function EditProduct() {
         <input
               name="weight"
               type="text"
-              value={weight}
+              value={weight !== undefined ? weight : productInfo?.weight}
               onChange={e => setWeight(e.target.value)}
               required />
           </label>
@@ -142,7 +141,7 @@ function EditProduct() {
         <input
               name="availability"
               type="number"
-              value={availability}
+              value={availability !== undefined ? availability : productInfo?.availability}
               onChange={e => setAvailability(e.target.value)}
             />
           </label>
@@ -153,7 +152,7 @@ function EditProduct() {
         <input
               name="url"
               type="text"
-              value={url}
+              value={url !== undefined ? url : productInfo?.url}
               onChange={e => setUrl(e.target.value)}
               required />
           </label>
@@ -161,20 +160,19 @@ function EditProduct() {
         <fieldset>
           <label> Price Tier:
           <div onChange={e => setTier(e.target.value)}>
-              <input type="radio" value="budget" name="tier" checked={tier === 'budget' ? true : false} /> Budget
-        <input type="radio" value="premium" name="tier" checked={tier === 'premium' ? true : false} /> Premium
+              <input type="radio" value="budget" name="tier" checked={(tier === undefined ? productInfo?.price_tier : tier) === 'budget' ? true : false} /> Budget
+        <input type="radio" value="premium" name="tier" checked={(tier === undefined ? productInfo?.price_tier : tier) === 'premium' ? true : false} /> Premium
       </div>
           </label>
         </fieldset>
         <fieldset>
           <label> Price Range
-          Availability:
             <Dropdown
               options={tier === 'budget' ? options : options2}
               onChange={e =>
                 setRange(e.value)
               }
-              value={range}
+              value={range !== undefined ? range : productInfo?.price_range}
               placeholder="Select Price Range" />
           </label>
         </fieldset>
@@ -183,8 +181,8 @@ function EditProduct() {
             <input
               name="isEditable"
               type="checkbox"
-              value={isEditable}
-              defaultChecked={isEditable}
+              value={isEditable !== undefined ? isEditable : productInfo?.isEditable}
+              defaultChecked={isEditable !== undefined ? isEditable : productInfo?.isEditable}
               onChange={() => setIsEditable(!isEditable)}
               required />
         I IsEditable

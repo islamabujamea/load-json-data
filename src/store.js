@@ -9,7 +9,7 @@ const rootReducer = (state = initailState, action) => {
         case 'GET_PRODUCTS':
             return {
                 ...state,
-                data: action.payload.data
+                data: action.payload
             }
         case 'UPDATE_PRODUCT':
             const pID = action.payload.id;
