@@ -18,7 +18,13 @@ const rootReducer = (state = initailState, action) => {
             const clonedDat = [...state.data];
             clonedDat[foundIndx] = {
                 ...clonedDat[foundIndx],
-                product_name: action.payload.name
+                product_name: action.payload.name,
+                weight: action.payload.weight,
+                availability: action.payload.availability,
+                url: action.payload.url,
+                price_tier: action.payload.tier,
+                price_range: action.payload.range,
+                isEditable: action.payload.isEditable,
             }
             console.log("clonedDat", clonedDat);
 

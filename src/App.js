@@ -38,6 +38,8 @@ function DisplayProducts() {
 
   const { data } = useSelector(s => s);
 
+  console.log(data)
+
   useEffect(() => {
     dispatch(addData(exportedData))
   }, [])
@@ -86,7 +88,9 @@ function EditProduct() {
   console.log('productInfo is', productInfo);
 
   useEffect(() => {
-    dispatch({ type: 'UPDATE_SELECTED_PROD', payload: value })
+    dispatch({
+      type: 'UPDATE_SELECTED_PROD', payload: value,
+    })
   }, [value])
 
 
@@ -101,11 +105,23 @@ function EditProduct() {
   const options2 = ['$50-100', '$100-199', '$200+'];
 
 
-  const handleSubmit = event => {
+  function handleSubmit(event) {
     event.preventDefault();
+
     dispatch({
-      type: 'UPDATE_PRODUCT', payload: { id: productInfo?._id, name: name }
+      type: 'UPDATE_PRODUCT', payload: {
+        id: productInfo?._id,
+        name: name,
+        weight: weight,
+        availability: availability,
+        url: url,
+        tier: tier,
+        range: range,
+        isEditable: isEditable
+
+      }
     })
+
   }
 
 
@@ -188,7 +204,7 @@ function EditProduct() {
         I IsEditable
       </label>
         </fieldset>
-        <button>Submit</button>
+        <button> Submit</button>
       </form>
     </div>
   )
